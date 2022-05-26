@@ -10,7 +10,7 @@ In this case, partioning will make one partition with $n-1$ elements, and one pa
 
 This gives the following reccurrence:
 $$
-T(n)=T(n-1)+T(0)+\Theta(n)=T(n+1)+\Theta(n)
+T(n)=T(n-1)+T(0)+\Theta(n)=T(n-1)+\Theta(n)
 $$
 
 Now, if we sum the cost on each level, we get:
@@ -23,6 +23,11 @@ Which is the running time of QUICKSORT in the worst case.
 ## 2
 
 Suppose that the splits at every level of QUICKSORT are in the proportion $1-\alpha$ to $\alpha$, where $0<\alpha\le 1/2$ is a constant. Show that the minimum depth of a leaf in the recursion tree is approximately $-\lg n/\lg\alpha$ and that the maximum depth is approximately $-\lg n/\lg(1-\alpha)$. (Don't worry about integer round-off.)
+
+### Solution
+The minimum depth follows a path that always takes the smaller part of the partition - i.e., that multiplies the number of elements by $\alpha$. One iteration reduces the number of elements from $n$ to $\alpha n$, and $i$ iterations reduce the number of elements to $\alpha^in$. At a leaf, there is just one remaining element and so at a minimum-depth leaf of depth m, we have $\alpha^mn=1$. Thus $\alpha^m=\frac{1}{n}$. Taking logs we get $m=-\lg n/ \lg \alpha$.
+
+The maximum depth follows a path that always takes the larger part of the partition - i.e., that multiplies the number of elements by $\alpha - 1$. One iteration reduces the number of elements from $n$ to $(\alpha - 1)n$, and $i$ iterations reduce the number of elements to $(\alpha - 1)^in$. At a leaf, there is just one remaining element and so at a maximum-depth leaf of depth $m$, we have $(\alpha-1)^mn=1$. Thus $(\alpha - 1)^m=\frac{1}{n}$. Taking logs we get $m=-\lg n/\lg(\alpha -1)$.
 
 ## 3
 

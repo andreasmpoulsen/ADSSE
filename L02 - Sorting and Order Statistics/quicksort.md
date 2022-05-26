@@ -56,50 +56,84 @@ Demonstrate the operation of HOARE-PARTITION on the array $A=\langle 13,19,9,5,1
 
 #### Solution
 
-$A=\langle 13,19,9,5,12,8,7,4,11,2,6,21\rangle, p = 0, r = 11$
+$A=\langle 13,19,9,5,12,8,7,4,11,2,6,21\rangle, p = 1, r = 12$
 $$
-x = A[p] = A[0] = 13
-$$
-$$
-i = p - 1 = 0 - 1 = -1
+x = A[p] = A[1] = 13
 $$
 $$
-j = r + 1 = 11 + 1 = 12
+i = p - 1 = 1 - 1 = 0
 $$
-REPEAT $j = j - 1$ UNTIL $A[j] \le x$:
+$$
+j = r + 1 = 12 + 1 = 13
+$$
 
-After one decrement, $j = 12 - 1 = 11$, and $A[11] = 21$, so the condition is fulfilled
+##### 1st loop
 
-REPEAT $i = i + 1$ UNTIL $A[i]\ge x$:
+REPEAT $j = j - 1$ UNTIL $A[j] \le x$
+    - After 2 decrements, $j = 13 - 2 = 11$ and $A[11] = 6$
+  
+REPEAT $i = i + 1$ UNTIL $A[j] \ge x$
+    - After 1 increment, $i = 0 + 1 = 1$ and $A[1] = 13$
 
-After one increment, $i = -1 + 1 = 0$, and $A[1] = 13$, so the condition is fulfilled
+IF $i < j$ EXCHANGE $A[i]$ WITH $A[j]$
+    - $A=\langle 6, 19, 9, 5, 12, 8, 7, 4, 11, 2, 13, 21 \rangle$
 
-IF $i < j$ EXCHANGE $A[i]$ with $A[j]$:
+##### 2nd loop
 
-$A=\langle 21,19,9,5,12,8,7,4,11,2,6,13\rangle$
+REPEAT $j = j - 1$ UNTIL $A[j] \le x$
+    - After 1 decrement, $j = 11 - 1 = 10$ and $A[10] = 2$
+  
+REPEAT $i = i + 1$ UNTIL $A[j] \ge x$
+    - After 1 increment, $i = 1 + 1 = 2$ and $A[2] = 19$
 
-REPEAT $j = j - 1$ UNTIL $A[j] \le x$:
+IF $i < j$ EXCHANGE $A[i]$ WITH $A[j]$
+    - $A=\langle 6, 2, 9, 5, 12, 8, 7, 4, 11, 19, 13, 21 \rangle$
 
-After ten decrements, $j = 11 - 10 = 1$, and $A[1] = 19$, so the condition is fulfilled
+##### 3rd loop
 
-REPEAT $i = i + 1$ UNTIL $A[i]\ge x$:
+REPEAT $j = j - 1$ UNTIL $A[j] \le x$
+    - After 1 decrement, $j = 10 - 1 = 9$ and $A[9] = 11$
+  
+REPEAT $i = i + 1$ UNTIL $A[j] \ge x$
+    - After 8 increments, $i = 2 + 8 = 10$ and $A[19] = 19$
 
-After one increment, $i = 0 + 1 = 1$, and $A[1] = 19$, so the condition is fulfilled
-
-IF $i < j$ EXCHANGE $A[i]$ with $A[j]$:
-
-$i = j$, so return $j$
-
-Assuming that the subarray $A[p..r]$ contains at least two elements, prove the following:
+IF $i < j$ EXCHANGE $A[i]$ WITH $A[j]$
+    - ELSE RETURN j
 
 ### b
 
+Assuming that the subarray $A[p..r]$ contains at least two elements, prove the following:
+
 The indices _i_ and _j_ are such that we never access an element of _A_ outside the subarray $A[p..r]$
+
+#### Solution
+
+Because when HOARE-PARTITION is running, $p \le i < j \le r$ will always hold, $i$, $j$ won't access any element of A outside the subarray $A[p..r]$.
 
 ### c
 
 When HOARE-PARTITION terminates, it returns a value _j_ such that $p\le j<r$
 
+#### Solution
+
+HOARE-PARTITION terminates when $j\ge i$, so therefore $p\le j < r$.
+
 ### d
 
 Every element of $A[p..j]$ is less than or equal to every element of $A[j+1..r]$ when HOARE-PARTITION terminates
+
+#### Solution
+
+At the time of termination, all elements in $A[p..j]$ are less than or equal to x, and all elements in $A[j+1..r]$ are greater than or equal to x.
+
+### e
+
+Rewrite the QUICKSORT procedure to use HOARE-PARTITION.
+
+```text
+QUICKSORT(A, p, r)
+    if p < r
+        q = HOARE-PARTITION(A, p, r)
+        QUICKSORT(A, p, q)
+        QUICKSORT(A, q + 1, r)
+```

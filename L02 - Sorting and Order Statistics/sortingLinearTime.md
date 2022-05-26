@@ -26,8 +26,49 @@ Which of the following sorting algorithms are stable: insertion sort, merge sort
 
 ### Solution
 
-INSERTION-SORT and MERGE-SORT are stable
+INSERTION-SORT and MERGE-SORT are stable.
+We must modify all key comparisons to also take position into account. This would be a constant-time process for each comparison, meaning it would add $\Theta(n)$ to the running time.
 
 ## 4
 
 Use induction to prove that radix sort works. Where does your proof need the assumption that the intermediate sort is stable?
+
+### Solution
+
+```text
+RADIX-SORT(A,d)
+    for i = 1 to d
+        use a stable sort to sort array A on digit i
+```
+
+For this we will use linear sort.
+
+#### First iteration
+
+$A = [6]$
+
+```text
+RADIX-SORT(A, 1)
+
+returns A = [6]
+```
+
+#### Second iteration
+
+$A = [62, 15]$
+
+```text
+RADIX-SORT(A, 2)
+
+returns A = [15, 62]
+```
+
+#### Third iteration
+
+$A = [627, 125, 434]$
+
+```text
+RADIX-SORT(A, 3)
+
+returns A = [125, 434, 627]
+```

@@ -6,9 +6,9 @@ Show that the running time of QUICKSORT is $\Theta(n^2)$ when the array _A_ cont
 
 ### Solution
 
-In this case, partioning will make one partition with $n-1$ elements, and one partition with $0$ elements.
+In this case, partitioning will make one partition with $n-1$ elements, and one partition with $0$ elements.
 
-This gives the following reccurrence:
+This gives the following recurrence:
 $$
 T(n)=T(n-1)+T(0)+\Theta(n)=T(n-1)+\Theta(n)
 $$
